@@ -1,0 +1,44 @@
+version: '3.9'
+
+services:
+  front:
+    build:
+      context: .
+      dockerfile: ./infra/front/Dockerfile
+    working_dir: /usr/src/front
+    volumes:
+      - ./front:/usr/src/front
+    ports:
+      - "80:80"
+    tty: true
+  api:
+    build:
+      context: .
+      dockerfile: ./infra/api/Dockerfile
+    working_dir: /go/src
+    volumes:
+      - ./api:/go/src
+    environment:
+      - TZ=Asia/Tokyo
+    ports:
+      - 8080:8080
+    tty: true
+    depends_on:
+      - db
+  db:
+    image: mysql:8.0
+    platform: linux/x86_64
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./infra/db/my.cnf:/etc/mysql/conf.d/my.cnf
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE:-go}
+      - MYSQL_USER=${MYSQL_USER:-user}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD:-password}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-root}
+      - TZ=Asia/Tokyo
+    ports:
+      - 3306:3306
+
+volumes:
+  db_data:
