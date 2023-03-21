@@ -38,14 +38,16 @@ const Form: React.FC<FormProps> = ({ filterStatus, setFilterStatus, setTodos }) 
   };
 
   return (
-    <form onSubmit={handleSubmit(submitTodoHandler)}>
+    <form onSubmit={handleSubmit(submitTodoHandler)} className='mt-3'>
       {errors.label && <div>{errors.label?.message}</div>}
-      <input {...register('label', formRequest)} type="text" className="todo-input" />
-      <button className="todo-button" type="submit">
-        <i className="fas fa-plus-square"></i>
-      </button>
-      <div className="select">
-        <select onChange={filterHandler} name="todos" className="filter-todo">
+      <div className='flex justify-center'>
+        <input {...register('label', formRequest)} type="text" className="w-9/12 pl-2 mr-2.5" />
+        <button className="text-indigo-600" type="submit">
+          <i className="fas fa-plus-square fa-2x"></i>
+        </button>
+      </div>
+      <div className="mt-3 text-center">
+        <select onChange={filterHandler} name="todos" className="p-2 text-center">
           <option value={STATUS.all}>All</option>
           <option value={STATUS.completed}>Completed</option>
           <option value={STATUS.uncompleted}>Uncompleted</option>
@@ -55,4 +57,4 @@ const Form: React.FC<FormProps> = ({ filterStatus, setFilterStatus, setTodos }) 
   );
 }
   
-  export default Form;
+export default Form;

@@ -10,8 +10,8 @@ type TodoListProps = {
 const TodoList: React.FC<TodoListProps> = ({ filterStatus, todos, setTodos }) => {
 
   return (
-    <div className="todo-container">
-      <ul className="todo-list">
+    <div className="mt-8 mx-auto w-[500px]">
+      <ul className="border border-gray-300 divide-y divide-gray-300">
         {todos.map((todo) => (
           <Todo filterStatus={filterStatus} todo={todo} setTodos={setTodos} key={todo.todo_id} />
         ))}

@@ -30,15 +30,22 @@ const Todo: React.FC<TodoProps> = ({ filterStatus, todo, setTodos }) => {
     };
   
     return (
-      <div className="todo">
-        <li className={`todo-item ${todo.completed_at ? "completed" : ""}`}>{todo.label}</li>
-        <button onClick={completeHandler} className="complete-btn">
-          <i className="fas fa-check"></i>
-        </button>
-        <button onClick={deleteHandler} className="trash-btn">
-          <i className="fas fa-trash"></i>
-        </button>
-      </div>
+      <li className={`pl-3 pr-4 py-3 flex items-center justify-between text-sm ${todo.completed_at ? "line-through" : ""}`}>
+        <div className="w-0 flex-1 flex items-center">
+          {todo.label}      
+        </div>
+        <div className="ml-4 flex-shrink-0">
+          {
+          !todo.completed_at && 
+          <button onClick={completeHandler} className="mr-2">
+            <i className="fas fa-check fa-2x"></i>
+          </button>
+          }
+          <button onClick={deleteHandler} className="text-red-500">
+            <i className="fas fa-trash fa-2x"></i>
+          </button>
+        </div>
+      </li>
     );
   }
   
