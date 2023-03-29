@@ -39,7 +39,7 @@ const Form: React.FC<FormProps> = ({ filterStatus, setFilterStatus, setTodos }) 
 
   return (
     <form onSubmit={handleSubmit(submitTodoHandler)} className='mt-3'>
-      {errors.label && <div>{errors.label?.message}</div>}
+      {errors.label && <div className='text-center text-red-500 mb-1'>{errors.label?.message}</div>}
       <div className='flex justify-center'>
         <input {...register('label', formRequest)} type="text" className="w-9/12 pl-2 mr-2.5" />
         <button className="text-indigo-600" type="submit">

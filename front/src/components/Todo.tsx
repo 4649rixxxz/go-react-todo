@@ -30,7 +30,7 @@ const Todo: React.FC<TodoProps> = ({ filterStatus, todo, setTodos }) => {
     };
   
     return (
-      <li className={`pl-3 pr-4 py-3 flex items-center justify-between text-sm ${todo.completed_at ? "line-through" : ""}`}>
+      <li className={`pl-5 pr-4 py-3 flex items-center justify-between text-sm ${todo.completed_at ? "line-through" : ""}`}>
         <div className="w-0 flex-1 flex items-center">
           {todo.label}      
         </div>

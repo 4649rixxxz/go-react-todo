@@ -1,12 +1,14 @@
 package controllers
 
 import (
+	"fmt"
 	"net/http"
 	"time"
 	"todo/models"
 	"todo/repository"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 )
 
 type TodoController struct {
@@ -37,17 +39,35 @@ func (todoController *TodoController) Index(c *gin.Context) {
 	})
 }
 
+type CreateRequest struct {
+	Label string `json:"label" binding:"required,max=20"`
+}
+
 func (todoController *TodoController) Create(c *gin.Context) {
 	userID, _ := c.Get("user_id")
-	var body struct {
-		Label string
-	}
+	var body CreateRequest
 
-	if c.Bind(&body) != nil {
+	if err := c.ShouldBindJSON(&body); err != nil {
+		var errMessage string
+		// 型アサーション
+		switch err.(type) {
+		case validator.ValidationErrors:
+			// 一つ目の変数「_」はindexが入るが使用しないため「_」となっている
+			for _, fieldError := range err.(validator.ValidationErrors) {
+				// bindingタグのどのタグ情報に引っかかったかを判定
+				switch fieldError.Tag() {
+				case "required":
+					errMessage = "必須です"
+				case "max":
+					errMessage = fmt.Sprintf("最大文字数は%s文字です", fieldError.Param())
+				default:
+					errMessage = "不正です"
+				}
+			}
+		}
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "Failed to read body",
+			"error": errMessage,
 		})
-
 		return
 	}
 
