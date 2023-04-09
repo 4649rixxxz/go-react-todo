@@ -9,8 +9,19 @@ services:
     volumes:
       - ./front:/usr/src/front
     ports:
+      - "3000:3000"
+    tty: true
+  web:
+    build:
+      context: .
+      dockerfile: ./infra/web/Dockerfile
+    volumes:
+      - ./infra/web/nginx.conf:/etc/nginx/nginx.conf
+    ports:
       - "80:80"
     tty: true
+    depends_on:
+      - api
   api:
     build:
       context: .
